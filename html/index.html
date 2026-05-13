@@ -6,6 +6,12 @@
   <title>Onyxay Lanzarote Producciones — Productora en Canarias</title>
   <meta name="description" content="Productora audiovisual en Canarias especializada en publicidad, fotografía, moda, contenido televisivo y gestión de eventos." />
   <link rel="stylesheet" href="../css/style.css" />
+  <script>
+    // Set --vh before first paint so slideshow is exactly window.innerHeight tall.
+    // iOS Safari reports wrong values for 100vh/100svh/100dvh — this is the fix.
+    var vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  </script>
 </head>
 <body>
 

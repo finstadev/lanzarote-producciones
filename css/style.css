@@ -164,7 +164,6 @@ ul { list-style: none; }
   position: relative;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
-  min-height: 500px;
   overflow: hidden;
 }
 
@@ -223,7 +222,7 @@ ul { list-style: none; }
   text-shadow:
     0 2px 20px rgba(0,0,0,0.7),
     0 1px 4px rgba(0,0,0,0.5);
-  margin-bottom: 0;
+  margin-bottom: 1.4rem;
 }
 
 .slideshow__content .hero__title em {
@@ -1745,37 +1744,30 @@ ul { list-style: none; }
     color: var(--text-muted) !important;
   }
 
-  /* Slideshow — use the JS-set --vh so it fills exactly the real screen height */
-  .slideshow {
-    height: calc(var(--vh, 1vh) * 100);
-    min-height: 0;
-  }
+  /* Slideshow */
+  .slideshow { height: calc(var(--vh, 1vh) * 100); }
 
-  /* Stronger gradient so text is readable without the glass box */
   .slideshow__overlay {
     background: linear-gradient(
       to bottom,
-      rgba(0,0,0,0.10) 0%,
-      rgba(0,0,0,0.30) 40%,
-      rgba(0,0,0,0.80) 100%
+      rgba(0,0,0,0.08) 0%,
+      rgba(0,0,0,0.25) 45%,
+      rgba(0,0,0,0.82) 100%
     );
   }
 
   .slideshow__dots { bottom: 1.8rem; }
 
-  /* Content fills the full slideshow, text aligns to the bottom.
-     No glass box — text floats directly on the gradient. */
+  /* Remove the glass box. Text sits in the lower third, centred. */
   .slideshow__content {
-    position: absolute;
-    inset: 0;
+    top: auto;
+    bottom: 90px;
+    left: 6%;
+    right: 6%;
     width: auto;
     max-width: none;
     transform: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 7% 5.5rem;
+    padding: 0;
     text-align: center;
     background: transparent;
     backdrop-filter: none;
