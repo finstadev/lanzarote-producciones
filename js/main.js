@@ -36,29 +36,25 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeNav() {
     burger.classList.remove('open');
     navLinks.classList.remove('open');
-    document.body.classList.remove('nav-open');
-  }
-
-  function openNav() {
-    burger.classList.add('open');
-    navLinks.classList.add('open');
-    document.body.classList.add('nav-open');
   }
 
   if (burger && navLinks) {
-    burger.addEventListener('click', () => {
-      if (navLinks.classList.contains('open')) { closeNav(); } else { openNav(); }
+    burger.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.contains('open');
+      isOpen ? closeNav() : (burger.classList.add('open'), navLinks.classList.add('open'));
     });
 
-    // Close when any link is tapped
-    navLinks.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', closeNav);
+    // Close when any nav link is tapped
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+
+    // Close when tapping outside the nav
+    document.addEventListener('click', e => {
+      if (!nav.contains(e.target)) closeNav();
     });
 
-    // Close on Escape key
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeNav();
-    });
+    // Close on Escape
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
   }
 
   // ── HERO: entrance animation (inner pages) ───────────────

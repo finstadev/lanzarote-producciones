@@ -1672,137 +1672,125 @@ ul { list-style: none; }
 @media (max-width: 768px) {
 
   /* ── NAV BAR ─────────────────────────────────────────────── */
-  :root { --nav-h: 64px; }
+  :root { --nav-h: 60px; }
 
-  /* Always-visible gradient so logo + burger read against any slide image */
+  /* Dark gradient so logo + burger are readable over any slide image */
   .nav {
-    background: linear-gradient(
-      to bottom,
-      rgba(0,0,0,0.55) 0%,
-      rgba(0,0,0,0.0) 100%
-    );
+    background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 100%);
   }
 
-  /* Logo: smaller so it doesn't crowd the burger */
   .nav__logo {
     font-size: 1rem;
     letter-spacing: 0.02em;
-    max-width: 70%;
+    max-width: 72%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  /* Burger: bigger lines, bigger tap area */
+  /* Burger: thicker lines, generous tap area */
   .nav__burger {
     display: flex;
     padding: 10px;
-    gap: 6px;
+    gap: 5px;
   }
 
   .nav__burger span {
-    width: 26px;
+    width: 22px;
     height: 2px;
-    border-radius: 2px;
+    border-radius: 1px;
     transform-origin: center;
   }
 
-  /* Clean X when open */
-  .nav__burger.open span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
+  .nav__burger.open span:nth-child(1) { transform: rotate(45deg) translateY(7px); }
   .nav__burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .nav__burger.open span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
+  .nav__burger.open span:nth-child(3) { transform: rotate(-45deg) translateY(-7px); }
 
-  /* ── FULL-SCREEN MENU ─────────────────────────────────────── */
+  /* ── DROPDOWN PANEL ───────────────────────────────────────── */
   .nav__links {
     position: fixed;
-    inset: 0;
-    z-index: 997;
-    background: #0a0a10;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    z-index: 998;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: stretch;
     gap: 0;
-    padding: calc(var(--nav-h) + 1rem) 9% 3rem;
-    transform: translateX(100%);
-    transition: transform 0.38s var(--ease);
-    overflow-y: auto;
-    overflow-x: hidden;
+    padding: 0.4rem 0 0.8rem;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s var(--ease), opacity 0.28s var(--ease);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
     max-height: none;
-    border-bottom: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 
-  .nav__links.open { transform: translateX(0); }
+  .nav__links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 
   .nav__links > li { width: 100%; }
 
-  /* Navigation links: large display font */
   .nav__links a {
     display: block;
-    padding: 0.85rem 0;
+    padding: 0.82rem 6%;
     width: 100%;
-    text-align: left;
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 300;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    color: rgba(255,255,255,0.82) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    line-height: 1.15;
-    transition: color 0.2s;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text) !important;
+    border-bottom: 1px solid var(--glass-border);
+    transition: color 0.2s, background 0.2s;
   }
 
   .nav__links > li:last-child > a { border-bottom: none; }
 
-  .nav__links a:hover { color: #ffffff !important; background: transparent; }
-  .nav__links a.active { color: var(--accent) !important; }
+  .nav__links a:hover { color: var(--accent) !important; background: rgba(200,32,32,0.04); }
+  .nav__links a.active { color: var(--accent) !important; font-weight: 600; }
 
-  /* Language selector: small and subtle at the bottom */
-  .nav__links details { width: 100%; margin-top: 1.8rem; }
+  /* Language selector: compact row */
+  .nav__links details { width: 100%; border-top: 1px solid var(--glass-border); }
   .nav__links details summary {
     display: block;
-    padding: 0.6rem 0;
-    font-family: var(--font-sans);
-    font-size: 0.7rem;
+    padding: 0.7rem 6%;
+    font-size: 0.72rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.35) !important;
+    color: var(--text-muted) !important;
     cursor: pointer;
     list-style: none;
-    border-bottom: none;
   }
   .nav__links details[open] summary { color: var(--accent) !important; }
   .nav__links details ul {
     position: static !important;
-    background: transparent !important;
+    background: var(--surface-2) !important;
     border: none !important;
     box-shadow: none !important;
     min-width: unset !important;
-    padding: 0.4rem 0 0 !important;
+    padding: 0.3rem 0 !important;
     margin: 0 !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 0 !important;
   }
   .nav__links details ul li a {
-    display: inline-block !important;
-    padding: 0.3rem 0.8rem 0.3rem 0 !important;
-    font-family: var(--font-sans) !important;
-    font-size: 0.68rem !important;
+    display: block !important;
+    padding: 0.5rem 6% !important;
+    font-size: 0.75rem !important;
     font-weight: 500 !important;
-    letter-spacing: 0.14em !important;
+    letter-spacing: 0.1em !important;
     text-transform: uppercase !important;
-    color: rgba(255,255,255,0.35) !important;
-    border-bottom: none !important;
+    color: var(--text-muted) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
   }
-  .nav__links details ul li a:hover { color: rgba(255,255,255,0.7) !important; }
-
-  /* Burger bar stays white over the dark open menu */
-  .nav__links.open ~ * .nav__burger span,
-  .nav__burger.open span { background: #ffffff; }
+  .nav__links details ul li:last-child a { border-bottom: none !important; }
+  .nav__links details ul li a:hover { color: var(--accent) !important; background: rgba(200,32,32,0.04) !important; }
 
   /* Slideshow */
   .slideshow { height: calc(var(--vh, 1vh) * 100); }
