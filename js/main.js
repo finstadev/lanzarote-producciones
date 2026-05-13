@@ -32,16 +32,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── BURGER MENU ───────────────────────────────────────────
   const burger = document.querySelector('.nav__burger');
   const navLinks = document.querySelector('.nav__links');
+
+  function closeNav() {
+    burger.classList.remove('open');
+    navLinks.classList.remove('open');
+    document.body.classList.remove('nav-open');
+  }
+
+  function openNav() {
+    burger.classList.add('open');
+    navLinks.classList.add('open');
+    document.body.classList.add('nav-open');
+  }
+
   if (burger && navLinks) {
     burger.addEventListener('click', () => {
-      burger.classList.toggle('open');
-      navLinks.classList.toggle('open');
+      if (navLinks.classList.contains('open')) { closeNav(); } else { openNav(); }
     });
+
+    // Close when any link is tapped
     navLinks.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        burger.classList.remove('open');
-        navLinks.classList.remove('open');
-      });
+      a.addEventListener('click', closeNav);
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeNav();
     });
   }
 

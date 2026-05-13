@@ -35,6 +35,8 @@ body {
   overflow-x: hidden;
 }
 
+body.nav-open { overflow: hidden; }
+
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
@@ -1669,80 +1671,138 @@ ul { list-style: none; }
 ======================================== */
 @media (max-width: 768px) {
 
-  /* Nav */
+  /* ── NAV BAR ─────────────────────────────────────────────── */
   :root { --nav-h: 64px; }
-  .nav__burger { display: flex; }
-  .nav__logo { font-size: 1.1rem; }
 
-  .nav__links {
-    position: fixed;
-    top: var(--nav-h);
-    left: 0; right: 0;
-    z-index: 998;
-    background: rgba(246,246,248,0.97);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: 0.5rem 0;
-    transform: translateY(-110%);
-    transition: transform 0.4s var(--ease);
-    border-bottom: 2px solid var(--glass-border);
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: calc(100vh - var(--nav-h));
+  /* Always-visible gradient so logo + burger read against any slide image */
+  .nav {
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.0) 100%
+    );
   }
 
-  .nav__links.open { transform: translateY(0); }
+  /* Logo: smaller so it doesn't crowd the burger */
+  .nav__logo {
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Burger: bigger lines, bigger tap area */
+  .nav__burger {
+    display: flex;
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .nav__burger span {
+    width: 26px;
+    height: 2px;
+    border-radius: 2px;
+    transform-origin: center;
+  }
+
+  /* Clean X when open */
+  .nav__burger.open span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
+  .nav__burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav__burger.open span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
+
+  /* ── FULL-SCREEN MENU ─────────────────────────────────────── */
+  .nav__links {
+    position: fixed;
+    inset: 0;
+    z-index: 997;
+    background: #0a0a10;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    padding: calc(var(--nav-h) + 1rem) 9% 3rem;
+    transform: translateX(100%);
+    transition: transform 0.38s var(--ease);
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: none;
+    border-bottom: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .nav__links.open { transform: translateX(0); }
 
   .nav__links > li { width: 100%; }
 
+  /* Navigation links: large display font */
   .nav__links a {
     display: block;
-    padding: 1rem 1.5rem;
+    padding: 0.85rem 0;
     width: 100%;
     text-align: left;
-    font-size: 0.82rem;
-    color: var(--text) !important;
-    border-bottom: 1px solid var(--glass-border);
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: rgba(255,255,255,0.82) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    line-height: 1.15;
+    transition: color 0.2s;
   }
 
   .nav__links > li:last-child > a { border-bottom: none; }
 
-  .nav__links a:hover,
-  .nav__links a.active { color: var(--accent) !important; background: rgba(200,32,32,0.04); }
+  .nav__links a:hover { color: #ffffff !important; background: transparent; }
+  .nav__links a.active { color: var(--accent) !important; }
 
-  /* Language selector in mobile nav */
-  .nav__links details { width: 100%; }
+  /* Language selector: small and subtle at the bottom */
+  .nav__links details { width: 100%; margin-top: 1.8rem; }
   .nav__links details summary {
     display: block;
-    padding: 1rem 1.5rem;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    padding: 0.6rem 0;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--text-muted) !important;
+    color: rgba(255,255,255,0.35) !important;
     cursor: pointer;
     list-style: none;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: none;
   }
   .nav__links details[open] summary { color: var(--accent) !important; }
   .nav__links details ul {
     position: static !important;
-    background: var(--surface-2) !important;
+    background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     min-width: unset !important;
-    padding: 0 !important;
+    padding: 0.4rem 0 0 !important;
     margin: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0 !important;
   }
   .nav__links details ul li a {
-    padding: 0.75rem 2rem !important;
-    font-size: 0.78rem !important;
-    border-bottom: 1px solid var(--glass-border) !important;
-    color: var(--text-muted) !important;
+    display: inline-block !important;
+    padding: 0.3rem 0.8rem 0.3rem 0 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 0.68rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: rgba(255,255,255,0.35) !important;
+    border-bottom: none !important;
   }
+  .nav__links details ul li a:hover { color: rgba(255,255,255,0.7) !important; }
+
+  /* Burger bar stays white over the dark open menu */
+  .nav__links.open ~ * .nav__burger span,
+  .nav__burger.open span { background: #ffffff; }
 
   /* Slideshow */
   .slideshow { height: calc(var(--vh, 1vh) * 100); }
