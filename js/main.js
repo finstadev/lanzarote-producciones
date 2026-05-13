@@ -2,6 +2,19 @@
    MAIN.JS — Lanzarote Producciones
    ============================================================ */
 
+// ── VIEWPORT HEIGHT FIX (iOS Safari) ──────────────────────────
+// iOS Safari reports incorrect values for 100vh/100svh/100dvh.
+// This sets --vh to the real visible height so the slideshow
+// fills the screen correctly on every iPhone.
+(function setVH() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', vh + 'px');
+})();
+window.addEventListener('resize', function() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', vh + 'px');
+}, { passive: true });
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ── NAV: scroll state ──────────────────────────────────────

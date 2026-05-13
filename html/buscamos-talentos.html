@@ -47,41 +47,41 @@
   <!-- PROFILES -->
   <section class="section--padded" style="padding-top:0; background:var(--bg);">
     <div style="max-width:1100px; margin:0 auto;">
-      <div class="reveal" style="margin-bottom:3rem;">
+      <div class="reveal profiles-heading">
         <span class="section__label">Perfiles buscados</span>
         <h2 class="section__title">¿Qué tipo de <em>talento</em><br>estamos buscando?</h2>
         <div class="divider"></div>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(201,169,110,0.08);">
-        <div class="reveal" style="background:var(--surface); padding:2.5rem 2.2rem;">
-          <div style="color:var(--accent); font-family:var(--font-display); font-size:2rem; margin-bottom:1rem;">01</div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:400; margin-bottom:0.7rem;">Producción</h3>
-          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.8;">Directores de producción, asistentes, coordinadores, secretarios de rodaje y auxiliares técnicos.</p>
+      <div class="grid-thirds grid-profiles" style="background:rgba(201,169,110,0.08);">
+        <div class="reveal profile-card">
+          <div class="profile-card__num">01</div>
+          <h3 class="profile-card__title">Producción</h3>
+          <p class="profile-card__text">Directores de producción, asistentes, coordinadores, secretarios de rodaje y auxiliares técnicos.</p>
         </div>
-        <div class="reveal reveal--delay-1" style="background:var(--surface); padding:2.5rem 2.2rem;">
-          <div style="color:var(--accent); font-family:var(--font-display); font-size:2rem; margin-bottom:1rem;">02</div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:400; margin-bottom:0.7rem;">Imagen & Arte</h3>
-          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.8;">Fotógrafos, directores de fotografía, estilistas, directores de arte y asistentes de imagen.</p>
+        <div class="reveal reveal--delay-1 profile-card">
+          <div class="profile-card__num">02</div>
+          <h3 class="profile-card__title">Imagen & Arte</h3>
+          <p class="profile-card__text">Fotógrafos, directores de fotografía, estilistas, directores de arte y asistentes de imagen.</p>
         </div>
-        <div class="reveal reveal--delay-2" style="background:var(--surface); padding:2.5rem 2.2rem;">
-          <div style="color:var(--accent); font-family:var(--font-display); font-size:2rem; margin-bottom:1rem;">03</div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:400; margin-bottom:0.7rem;">Moda & Belleza</h3>
-          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.8;">Estilistas de moda, makeup artists, peluquería, coordinadores de casting y buyers.</p>
+        <div class="reveal reveal--delay-2 profile-card">
+          <div class="profile-card__num">03</div>
+          <h3 class="profile-card__title">Moda & Belleza</h3>
+          <p class="profile-card__text">Estilistas de moda, makeup artists, peluquería, coordinadores de casting y buyers.</p>
         </div>
-        <div class="reveal reveal--delay-1" style="background:var(--surface); padding:2.5rem 2.2rem;">
-          <div style="color:var(--accent); font-family:var(--font-display); font-size:2rem; margin-bottom:1rem;">04</div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:400; margin-bottom:0.7rem;">Contenido Digital</h3>
-          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.8;">Branded content creators, gestores de redes sociales y especialistas en marketing digital.</p>
+        <div class="reveal reveal--delay-1 profile-card">
+          <div class="profile-card__num">04</div>
+          <h3 class="profile-card__title">Contenido Digital</h3>
+          <p class="profile-card__text">Branded content creators, gestores de redes sociales y especialistas en marketing digital.</p>
         </div>
-        <div class="reveal reveal--delay-2" style="background:var(--surface); padding:2.5rem 2.2rem;">
-          <div style="color:var(--accent); font-family:var(--font-display); font-size:2rem; margin-bottom:1rem;">05</div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:400; margin-bottom:0.7rem;">Técnico AV</h3>
-          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.8;">Técnicos de sonido, operadores de cámara, iluminadores y especialistas en postproducción.</p>
+        <div class="reveal reveal--delay-2 profile-card">
+          <div class="profile-card__num">05</div>
+          <h3 class="profile-card__title">Técnico AV</h3>
+          <p class="profile-card__text">Técnicos de sonido, operadores de cámara, iluminadores y especialistas en postproducción.</p>
         </div>
-        <div class="reveal reveal--delay-3" style="background:var(--surface); padding:2.5rem 2.2rem;">
-          <div style="color:var(--accent); font-family:var(--font-display); font-size:2rem; margin-bottom:1rem;">06</div>
-          <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:400; margin-bottom:0.7rem;">Logística</h3>
-          <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.8;">Coordinadores de localizaciones, conductores, asistentes de logística y gestores de espacios.</p>
+        <div class="reveal reveal--delay-3 profile-card">
+          <div class="profile-card__num">06</div>
+          <h3 class="profile-card__title">Logística</h3>
+          <p class="profile-card__text">Coordinadores de localizaciones, conductores, asistentes de logística y gestores de espacios.</p>
         </div>
       </div>
     </div>
@@ -90,28 +90,19 @@
   <!-- FORM -->
   <section class="form-section">
     <div class="form-grid" style="max-width:1100px; margin:0 auto;">
-      <div class="reveal">
+      <div class="reveal form-info">
         <span class="section__label">Aplica ahora</span>
         <h2 class="section__title">Envíanos tu<br><em>candidatura</em></h2>
         <div class="divider"></div>
         <p class="section__text">Mándanos tu CV y una breve presentación. Revisamos todas las candidaturas y nos ponemos en contacto si hay una oportunidad que encaje con tu perfil.</p>
-        <div style="margin-top:2.5rem; display:flex; flex-direction:column; gap:1rem;">
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <span style="color:var(--accent); font-size:0.9rem; margin-top:2px;">→</span>
-            <span style="font-size:0.8rem; color:var(--text-muted);">Adjunta tu CV en PDF o enlace a portfolio</span>
-          </div>
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <span style="color:var(--accent); font-size:0.9rem; margin-top:2px;">→</span>
-            <span style="font-size:0.8rem; color:var(--text-muted);">Cuéntanos en qué área te especializas</span>
-          </div>
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <span style="color:var(--accent); font-size:0.9rem; margin-top:2px;">→</span>
-            <span style="font-size:0.8rem; color:var(--text-muted);">Respondemos a todas las candidaturas recibidas</span>
-          </div>
-        </div>
-        <div style="margin-top:2.5rem; padding:1.8rem; border:1px solid rgba(201,169,110,0.2);">
-          <div style="font-size:0.65rem; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem;">También puedes escribirnos directamente</div>
-          <a href="mailto:info@lanzaroteproducciones.com" style="font-family:var(--font-display); font-size:1.1rem; color:var(--text);">info@lanzaroteproducciones.com</a>
+        <ul class="form-info__bullets">
+          <li><span class="form-info__arrow">→</span>Adjunta tu CV en PDF o enlace a portfolio</li>
+          <li><span class="form-info__arrow">→</span>Cuéntanos en qué área te especializas</li>
+          <li><span class="form-info__arrow">→</span>Respondemos a todas las candidaturas recibidas</li>
+        </ul>
+        <div class="form-info__contact">
+          <span class="form-info__contact-label">También puedes escribirnos directamente</span>
+          <a href="mailto:info@lanzaroteproducciones.com" class="form-info__email">info@lanzaroteproducciones.com</a>
         </div>
       </div>
 
