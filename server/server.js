@@ -25,14 +25,20 @@ function readLeads() {
 function writeLead(lead) {
   const leads = readLeads();
   lead.id = leads.length ? Math.max(...leads.map(l => l.id)) + 1 : 1;
+  lead.starred  = false;
+  lead.archived = false;
   leads.unshift(lead);
   fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
   return lead;
 }
 
-function deleteLead(id) {
-  const leads = readLeads().filter(l => l.id !== Number(id));
+function updateLead(id, updates) {
+  const leads = readLeads();
+  const idx   = leads.findIndex(l => l.id === Number(id));
+  if (idx === -1) return null;
+  leads[idx] = { ...leads[idx], ...updates };
   fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
+  return leads[idx];
 }
 
 // ── Admin sessions (in-memory, 24 h) ──────────────────────
@@ -155,24 +161,43 @@ app.post('/api/admin/login', loginLimiter, (req, res) => {
 
 // ── GET /api/admin/leads ──────────────────────────────────
 app.get('/api/admin/leads', requireAdmin, (req, res) => {
-  const leads = readLeads();
-  const now   = new Date();
-  const today = now.toISOString().slice(0, 10);
-  const weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const all      = readLeads();
+  const active   = all.filter(l => !l.archived);
+  const archived = all.filter(l =>  l.archived);
+  const now      = new Date();
+  const today    = now.toISOString().slice(0, 10);
+  const weekAgo  = new Date(now - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   res.json({
-    leads,
+    leads:    active,
+    archived: archived,
     stats: {
-      total:     leads.length,
-      today:     leads.filter(l => l.createdAt?.startsWith(today)).length,
-      thisWeek:  leads.filter(l => l.createdAt >= weekAgo).length
+      total:    active.length,
+      today:    active.filter(l => l.createdAt?.startsWith(today)).length,
+      thisWeek: active.filter(l => l.createdAt >= weekAgo).length,
+      starred:  active.filter(l => l.starred).length
     }
   });
 });
 
-// ── DELETE /api/admin/leads/:id ───────────────────────────
+// ── PUT /api/admin/leads/:id/star ─────────────────────────
+app.put('/api/admin/leads/:id/star', requireAdmin, (req, res) => {
+  const leads = readLeads();
+  const lead  = leads.find(l => l.id === Number(req.params.id));
+  if (!lead) return res.status(404).json({ error: 'Lead no encontrado' });
+  const updated = updateLead(req.params.id, { starred: !lead.starred });
+  res.json({ ok: true, starred: updated.starred });
+});
+
+// ── DELETE /api/admin/leads/:id  (soft archive) ───────────
 app.delete('/api/admin/leads/:id', requireAdmin, (req, res) => {
-  deleteLead(req.params.id);
+  updateLead(req.params.id, { archived: true, archivedAt: new Date().toISOString() });
+  res.json({ ok: true });
+});
+
+// ── PUT /api/admin/leads/:id/restore ─────────────────────
+app.put('/api/admin/leads/:id/restore', requireAdmin, (req, res) => {
+  updateLead(req.params.id, { archived: false, archivedAt: null });
   res.json({ ok: true });
 });
 
