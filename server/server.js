@@ -186,7 +186,16 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'html', 'index.html'));
 });
 
+// ── Debug (remove after confirming env vars work) ─────────
+app.get('/api/debug', (req, res) => {
+  res.json({
+    adminPasswordSet: !!process.env.ADMIN_PASSWORD,
+    adminPasswordLength: (process.env.ADMIN_PASSWORD || '').length
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`\n  Lanzarote Producciones — http://localhost:${PORT}`);
-  console.log(`  Admin panel          — http://localhost:${PORT}/admin\n`);
+  console.log(`  Admin panel          — http://localhost:${PORT}/admin`);
+  console.log(`  ADMIN_PASSWORD set:  ${!!process.env.ADMIN_PASSWORD}\n`);
 });
