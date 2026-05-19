@@ -3,417 +3,656 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Lanzarote Producciones</title>
+  <title>Panel Admin — Onyxay Lanzarote Producciones</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg:       #07070e;
-      --surface:  #111118;
-      --surface2: #1a1a24;
-      --border:   rgba(255,255,255,0.07);
-      --accent:   #2041c8;
-      --accent2:  #4062e8;
-      --text:     #f0f0f4;
-      --muted:    rgba(240,240,244,0.45);
-      --danger:   #e84040;
-      --success:  #3ecf8e;
-      --sans:     'Montserrat', sans-serif;
-      --display:  'Cormorant Garamond', serif;
+      --bg:           #07070e;
+      --surface:      #0f0f18;
+      --surface2:     #15151f;
+      --surface3:     #1c1c28;
+      --border:       rgba(255,255,255,0.07);
+      --border-light: rgba(255,255,255,0.12);
+      --accent:       #2041c8;
+      --accent-light: #4062e8;
+      --accent-glow:  rgba(32,65,200,0.15);
+      --text:         #f0f0f4;
+      --muted:        rgba(240,240,244,0.45);
+      --muted2:       rgba(240,240,244,0.25);
+      --danger:       #c84040;
+      --success:      #3ecf8e;
+      --ease:         cubic-bezier(0.4,0,0.2,1);
+      --display:      'Cormorant Garamond', serif;
+      --sans:         'Montserrat', sans-serif;
+      --nav-h:        72px;
     }
-    html, body { height: 100%; font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; font-family: var(--sans); }
-    input  { font-family: var(--sans); }
 
-    /* ── LOGIN ───────────────────────────────────────────── */
-    #login-screen {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at 50% 0%, rgba(32,65,200,0.18) 0%, transparent 60%), var(--bg);
-    }
-    .login-card {
-      width: 100%; max-width: 380px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 3rem 2.5rem;
-      text-align: center;
-    }
-    .login-logo {
-      font-family: var(--display);
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-    .login-logo span { color: var(--accent2); }
-    .login-sub {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-    }
-    .login-label {
-      display: block;
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: left;
-      margin-bottom: 6px;
-    }
-    .login-input {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
+    html, body {
+      height: 100%;
+      font-family: var(--sans);
+      background: var(--bg);
       color: var(--text);
-      padding: 12px 14px;
-      font-size: 0.88rem;
-      outline: none;
-      transition: border-color 0.2s;
-      margin-bottom: 1.4rem;
-    }
-    .login-input:focus { border-color: var(--accent); }
-    .login-btn {
-      width: 100%;
-      background: var(--accent);
-      border: none;
-      color: #fff;
-      padding: 13px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      transition: background 0.2s;
-    }
-    .login-btn:hover { background: var(--accent2); }
-    .login-error {
-      font-size: 0.78rem;
-      color: var(--danger);
-      margin-top: 1rem;
-      min-height: 1.2em;
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── DASHBOARD ───────────────────────────────────────── */
-    #dashboard { display: none; flex-direction: column; min-height: 100vh; }
+    a  { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button, input, select { font-family: var(--sans); }
+    button { cursor: pointer; }
 
-    .dash-header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 62px;
+    /* ═══════════════════════════════════════════
+       LOGIN
+    ═══════════════════════════════════════════ */
+    #login-screen {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
+      justify-content: center;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(32,65,200,0.22) 0%, transparent 60%),
+        var(--bg);
     }
-    .dash-logo {
+
+    .login-wrap {
+      width: 100%;
+      max-width: 420px;
+      padding: 0 1.5rem;
+    }
+
+    .login-card {
+      background: rgba(15,15,24,0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-light);
+      padding: 3.5rem 3rem;
+    }
+
+    .login-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .login-logo {
       font-family: var(--display);
-      font-size: 1.15rem;
+      font-size: 1.7rem;
       font-weight: 600;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 2.8rem;
     }
-    .dash-logo span { color: var(--accent2); }
-    .dash-logo em {
-      font-style: normal;
-      font-size: 0.6rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-left: 0.6rem;
-      font-family: var(--sans);
-      vertical-align: middle;
-    }
-    .dash-logout {
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: none;
-      border: 1px solid var(--border);
-      padding: 7px 16px;
-      transition: all 0.2s;
-    }
-    .dash-logout:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
 
-    .dash-main { flex: 1; padding: 2rem; max-width: 1300px; width: 100%; margin: 0 auto; }
+    .login-logo span { color: #c8d8ff; }
 
-    /* Stats */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      margin-bottom: 2rem;
-      border: 1px solid var(--border);
+    .login-divider {
+      width: 36px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 2.8rem;
     }
-    .stat-card {
-      background: var(--surface);
-      padding: 1.5rem 2rem;
-      text-align: center;
-    }
-    .stat-card__num {
-      font-family: var(--display);
-      font-size: 2.8rem;
-      font-weight: 300;
-      color: var(--accent2);
-      line-height: 1;
-    }
-    .stat-card__label {
+
+    .login-label {
+      display: block;
       font-size: 0.62rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-top: 6px;
+      margin-bottom: 8px;
     }
 
-    /* Controls */
-    .controls {
+    .login-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      color: var(--text);
+      padding: 10px 0;
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s var(--ease);
+      margin-bottom: 2.4rem;
+      letter-spacing: 0.08em;
+    }
+
+    .login-input:focus { border-bottom-color: var(--accent-light); }
+
+    .login-btn {
+      width: 100%;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 14px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: background 0.3s var(--ease), border-color 0.3s;
+    }
+
+    .login-btn:hover { background: var(--accent-light); border-color: var(--accent-light); }
+    .login-btn:disabled { opacity: 0.5; cursor: default; }
+
+    .login-error {
+      font-size: 0.75rem;
+      color: var(--danger);
+      margin-top: 1rem;
+      letter-spacing: 0.04em;
+      min-height: 1.2em;
+    }
+
+    /* ═══════════════════════════════════════════
+       DASHBOARD SHELL
+    ═══════════════════════════════════════════ */
+    #dashboard {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Nav ── */
+    .admin-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      background: rgba(7,7,14,0.92);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 24px rgba(0,0,0,0.3);
+    }
+
+    .admin-nav__logo {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+
+    .admin-nav__logo span { color: #c8d8ff; }
+
+    .admin-nav__right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .admin-nav__badge {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      border: 1px solid rgba(64,98,232,0.4);
+      padding: 4px 10px;
+    }
+
+    .admin-nav__logout {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      transition: all 0.3s var(--ease);
+    }
+
+    .admin-nav__logout:hover {
+      color: var(--text);
+      border-color: var(--border-light);
+    }
+
+    /* ── Main content ── */
+    .admin-main {
+      flex: 1;
+      margin-top: var(--nav-h);
+      padding: 3.5rem 5%;
+      max-width: 1400px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Page title */
+    .admin-page-title {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .admin-page-title .eyebrow {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .admin-page-title h1 {
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    .admin-page-title h1 em {
+      font-style: italic;
+      color: #c8d8ff;
+    }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      padding: 2.2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .stat-card:hover { background: var(--surface2); }
+    .stat-card:hover::before { opacity: 1; }
+
+    .stat-card__label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .stat-card__num {
+      font-family: var(--display);
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 300;
+      color: var(--accent-light);
+      line-height: 1;
+    }
+
+    /* ── Controls bar ── */
+    .controls-bar {
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
     }
-    .ctrl-input {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 9px 14px;
-      font-size: 0.82rem;
-      outline: none;
+
+    .ctrl-search {
       flex: 1;
-      min-width: 200px;
-      transition: border-color 0.2s;
+      min-width: 220px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      color: var(--text);
+      padding: 10px 0;
+      font-size: 0.82rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+      letter-spacing: 0.04em;
     }
-    .ctrl-input:focus { border-color: var(--accent); }
+
+    .ctrl-search::placeholder { color: var(--muted2); }
+    .ctrl-search:focus { border-bottom-color: var(--accent-light); }
+
     .ctrl-select {
       background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--text);
+      color: var(--muted);
       padding: 9px 14px;
-      font-size: 0.82rem;
-      outline: none;
-      min-width: 140px;
-    }
-    .ctrl-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 9px 18px;
       font-size: 0.7rem;
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: all 0.2s;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .ctrl-select:focus { border-color: var(--accent); color: var(--text); }
+
+    .ctrl-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 9px 20px;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: all 0.3s var(--ease);
       white-space: nowrap;
     }
-    .ctrl-btn:hover { border-color: rgba(255,255,255,0.2); background: var(--surface); }
+
+    .ctrl-btn:hover { border-color: var(--border-light); color: var(--text); }
+
     .ctrl-btn--accent {
       background: var(--accent);
       border-color: var(--accent);
       color: #fff;
     }
-    .ctrl-btn--accent:hover { background: var(--accent2); border-color: var(--accent2); }
 
-    /* Count */
-    .leads-count {
-      font-size: 0.7rem;
+    .ctrl-btn--accent:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-light);
+      color: #fff;
+    }
+
+    /* Lead count */
+    .leads-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .leads-meta__count {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 0.8rem;
     }
 
-    /* Table */
+    /* ── Table ── */
     .table-wrap {
-      overflow-x: auto;
       border: 1px solid var(--border);
+      overflow-x: auto;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
+
     thead th {
       background: var(--surface);
-      padding: 12px 16px;
+      padding: 14px 20px;
       text-align: left;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 600;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
     }
+
     tbody tr {
       border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
+      transition: background 0.2s var(--ease);
       cursor: pointer;
     }
+
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: var(--surface2); }
-    tbody tr.expanded { background: var(--surface2); }
+    tbody tr.is-expanded { background: var(--surface2); }
+
     tbody td {
-      padding: 13px 16px;
-      color: var(--text);
-      vertical-align: top;
-      max-width: 220px;
+      padding: 16px 20px;
+      vertical-align: middle;
     }
-    .td-date { color: var(--muted); white-space: nowrap; font-size: 0.75rem; }
-    .td-name { font-weight: 500; }
-    .td-email { color: var(--accent2); }
-    .td-phone { white-space: nowrap; }
+
+    .td-id {
+      font-size: 0.62rem;
+      color: var(--muted2);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    .td-date {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .td-name {
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .td-email {
+      color: var(--accent-light);
+      font-size: 0.76rem;
+    }
+
+    .td-phone {
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 0.76rem;
+    }
+
     .td-tag {
       display: inline-block;
-      font-size: 0.58rem;
+      font-size: 0.56rem;
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      padding: 3px 8px;
-      border: 1px solid rgba(32,65,200,0.4);
-      color: var(--accent2);
+      padding: 4px 10px;
+      border: 1px solid rgba(64,98,232,0.35);
+      color: var(--accent-light);
     }
+
     .td-msg {
-      max-width: 220px;
+      max-width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       color: var(--muted);
+      font-size: 0.74rem;
     }
-    .td-actions { white-space: nowrap; }
+
     .btn-del {
       background: none;
-      border: 1px solid rgba(232,64,64,0.3);
-      color: var(--danger);
-      padding: 5px 10px;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
+      border: 1px solid rgba(200,64,64,0.2);
+      color: rgba(200,64,64,0.6);
+      padding: 6px 12px;
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
-    .btn-del:hover { background: rgba(232,64,64,0.12); border-color: var(--danger); }
 
-    /* Expanded detail row */
+    .btn-del:hover {
+      background: rgba(200,64,64,0.08);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* ── Expanded detail ── */
     .detail-row td {
       padding: 0;
       background: var(--surface2);
       border-bottom: 1px solid var(--border);
     }
+
     .detail-inner {
-      padding: 1.4rem 2rem;
+      padding: 2rem 2.5rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.6rem 2.4rem;
+      border-top: 1px solid var(--accent);
     }
+
     .detail-field label {
       display: block;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 600;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
+
     .detail-field p {
       font-size: 0.82rem;
+      font-weight: 300;
       color: var(--text);
       word-break: break-word;
+      line-height: 1.7;
     }
-    .detail-field--wide {
-      grid-column: 1 / -1;
-    }
-    .detail-field p a { color: var(--accent2); }
 
-    /* Empty state */
-    .empty {
-      padding: 4rem 2rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-    .empty strong { display: block; font-family: var(--display); font-size: 1.4rem; font-weight: 300; color: var(--text); margin-bottom: 0.5rem; }
+    .detail-field p a { color: var(--accent-light); }
+    .detail-field--wide { grid-column: 1 / -1; }
 
-    /* Loading */
-    .loading {
-      padding: 3rem;
+    /* ── Empty / Loading ── */
+    .state-block {
+      padding: 5rem 2rem;
       text-align: center;
-      color: var(--muted);
+    }
+
+    .state-block__title {
+      font-family: var(--display);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .state-block__sub {
       font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      color: var(--muted);
+      letter-spacing: 0.06em;
     }
 
-    @media (max-width: 640px) {
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
       .stats-row { grid-template-columns: 1fr; }
-      .dash-main { padding: 1rem; }
+      .admin-main { padding: 2rem 5%; }
       .detail-inner { grid-template-columns: 1fr; }
+      .admin-nav { padding: 0 5%; }
+      .admin-nav__badge { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── LOGIN ──────────────────────────────────────────────── -->
+<!-- ═══════════════════════════════════════════
+     LOGIN
+═══════════════════════════════════════════ -->
 <div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">Onyxay <span>Lanzarote</span> Producciones</div>
-    <div class="login-sub">Panel de Administración</div>
-    <label class="login-label" for="pwd">Contraseña</label>
-    <input class="login-input" type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
-    <button class="login-btn" id="login-btn">Entrar</button>
-    <div class="login-error" id="login-error"></div>
+  <div class="login-wrap">
+    <div class="login-card">
+      <span class="login-eyebrow">Panel de administración</span>
+      <div class="login-logo">Onyxay <span>Lanzarote</span> Producciones</div>
+      <div class="login-divider"></div>
+      <label class="login-label" for="pwd">Contraseña</label>
+      <input class="login-input" type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+      <button class="login-btn" id="login-btn">Acceder</button>
+      <div class="login-error" id="login-error"></div>
+    </div>
   </div>
 </div>
 
-<!-- ── DASHBOARD ───────────────────────────────────────────── -->
+<!-- ═══════════════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════════════ -->
 <div id="dashboard">
 
-  <header class="dash-header">
-    <div class="dash-logo">
-      Onyxay <span>Lanzarote</span> Producciones
-      <em>Admin</em>
+  <nav class="admin-nav">
+    <div class="admin-nav__logo">Onyxay <span>Lanzarote</span> Producciones</div>
+    <div class="admin-nav__right">
+      <span class="admin-nav__badge">Admin</span>
+      <button class="admin-nav__logout" id="logout-btn">Cerrar sesión</button>
     </div>
-    <button class="dash-logout" id="logout-btn">Cerrar sesión</button>
-  </header>
+  </nav>
 
-  <main class="dash-main">
+  <main class="admin-main">
+
+    <!-- Page title -->
+    <div class="admin-page-title">
+      <span class="eyebrow">Gestión de leads</span>
+      <h1>Base de datos <em>de contactos</em></h1>
+    </div>
 
     <!-- Stats -->
     <div class="stats-row">
       <div class="stat-card">
+        <span class="stat-card__label">Total leads</span>
         <div class="stat-card__num" id="stat-total">—</div>
-        <div class="stat-card__label">Total leads</div>
       </div>
       <div class="stat-card">
+        <span class="stat-card__label">Recibidos hoy</span>
         <div class="stat-card__num" id="stat-today">—</div>
-        <div class="stat-card__label">Hoy</div>
       </div>
       <div class="stat-card">
+        <span class="stat-card__label">Esta semana</span>
         <div class="stat-card__num" id="stat-week">—</div>
-        <div class="stat-card__label">Esta semana</div>
       </div>
     </div>
 
     <!-- Controls -->
-    <div class="controls">
-      <input class="ctrl-input" type="text" id="search" placeholder="Buscar por nombre, email, teléfono..." />
+    <div class="controls-bar">
+      <input class="ctrl-search" type="text" id="search" placeholder="Buscar por nombre, email, teléfono, perfil…" />
       <select class="ctrl-select" id="filter-tipo">
         <option value="">Todos los tipos</option>
         <option value="candidatura">Candidatura</option>
         <option value="contacto">Contacto</option>
       </select>
-      <button class="ctrl-btn" id="refresh-btn">↻ Actualizar</button>
-      <button class="ctrl-btn ctrl-btn--accent" id="export-btn">↓ Exportar CSV</button>
+      <button class="ctrl-btn" id="refresh-btn">↻ &nbsp;Actualizar</button>
+      <button class="ctrl-btn ctrl-btn--accent" id="export-btn">↓ &nbsp;Exportar CSV</button>
     </div>
 
-    <div class="leads-count" id="leads-count"></div>
+    <!-- Meta / count -->
+    <div class="leads-meta">
+      <span class="leads-meta__count" id="leads-count"></span>
+    </div>
 
     <!-- Table -->
     <div class="table-wrap" id="table-wrap">
-      <div class="loading">Cargando leads...</div>
+      <div class="state-block">
+        <div class="state-block__title">Cargando</div>
+        <div class="state-block__sub">Obteniendo registros…</div>
+      </div>
     </div>
 
   </main>
@@ -421,17 +660,18 @@
 
 <script>
   const TOKEN_KEY = 'lp_admin_token';
-  let allLeads = [];
+  let allLeads  = [];
   let expandedId = null;
 
-  // ── Auth ────────────────────────────────────────────────
-  function getToken() { return sessionStorage.getItem(TOKEN_KEY); }
-  function setToken(t) { sessionStorage.setItem(TOKEN_KEY, t); }
-  function clearToken() { sessionStorage.removeItem(TOKEN_KEY); }
+  /* ── Auth ─────────────────────────────────── */
+  const getToken   = () => sessionStorage.getItem(TOKEN_KEY);
+  const setToken   = t => sessionStorage.setItem(TOKEN_KEY, t);
+  const clearToken = () => sessionStorage.removeItem(TOKEN_KEY);
 
   function showDashboard() {
     document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'flex';
+    const dash = document.getElementById('dashboard');
+    dash.style.display = 'flex';
     loadLeads();
   }
 
@@ -441,16 +681,15 @@
     clearToken();
   }
 
-  // Auto-login if token exists
   if (getToken()) showDashboard();
 
-  // Login
+  /* ── Login ────────────────────────────────── */
   async function doLogin() {
     const pwd = document.getElementById('pwd').value;
     const err = document.getElementById('login-error');
     const btn = document.getElementById('login-btn');
-    if (!pwd) { err.textContent = 'Introduce la contraseña'; return; }
-    btn.textContent = 'Entrando...';
+    if (!pwd) { err.textContent = 'Introduce tu contraseña'; return; }
+    btn.textContent = 'Accediendo…';
     btn.disabled = true;
     try {
       const res  = await fetch('/api/admin/login', {
@@ -461,8 +700,8 @@
       const json = await res.json();
       if (res.ok) { setToken(json.token); err.textContent = ''; showDashboard(); }
       else { err.textContent = json.error || 'Contraseña incorrecta'; }
-    } catch { err.textContent = 'Error de conexión'; }
-    btn.textContent = 'Entrar';
+    } catch { err.textContent = 'Error de conexión. Inténtalo de nuevo.'; }
+    btn.textContent = 'Acceder';
     btn.disabled = false;
   }
 
@@ -470,7 +709,7 @@
   document.getElementById('pwd').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('logout-btn').addEventListener('click', showLogin);
 
-  // ── Load leads ──────────────────────────────────────────
+  /* ── Load leads ───────────────────────────── */
   async function loadLeads() {
     try {
       const res  = await fetch('/api/admin/leads', {
@@ -479,25 +718,33 @@
       if (res.status === 401) { showLogin(); return; }
       const json = await res.json();
       allLeads = json.leads;
+
       document.getElementById('stat-total').textContent = json.stats.total;
       document.getElementById('stat-today').textContent = json.stats.today;
       document.getElementById('stat-week').textContent  = json.stats.thisWeek;
+
       renderTable(allLeads);
     } catch {
-      document.getElementById('table-wrap').innerHTML = '<div class="loading">Error al cargar. Intenta de nuevo.</div>';
+      document.getElementById('table-wrap').innerHTML =
+        '<div class="state-block"><div class="state-block__title">Error</div><div class="state-block__sub">No se pudieron cargar los registros.</div></div>';
     }
   }
 
-  // ── Render table ────────────────────────────────────────
+  /* ── Render table ─────────────────────────── */
   function renderTable(leads) {
     const wrap = document.getElementById('table-wrap');
-    document.getElementById('leads-count').textContent =
-      leads.length === allLeads.length
-        ? `${leads.length} leads en total`
-        : `${leads.length} de ${allLeads.length} leads`;
+    const countEl = document.getElementById('leads-count');
+
+    countEl.textContent = leads.length === allLeads.length
+      ? `${leads.length} registro${leads.length !== 1 ? 's' : ''}`
+      : `${leads.length} de ${allLeads.length} registros`;
 
     if (!leads.length) {
-      wrap.innerHTML = '<div class="empty"><strong>Sin resultados</strong>No hay leads que coincidan con tu búsqueda.</div>';
+      wrap.innerHTML = `
+        <div class="state-block">
+          <div class="state-block__title">Sin resultados</div>
+          <div class="state-block__sub">No hay registros que coincidan con tu búsqueda.</div>
+        </div>`;
       return;
     }
 
@@ -518,54 +765,61 @@
         <tbody>`;
 
     leads.forEach(l => {
-      const date = l.createdAt ? new Date(l.createdAt).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
-      const msg  = (l.mensaje || '').slice(0, 55) + ((l.mensaje || '').length > 55 ? '…' : '');
-      const isExpanded = expandedId === l.id;
+      const date = l.createdAt
+        ? new Date(l.createdAt).toLocaleDateString('es-ES', { day:'2-digit', month:'short', year:'numeric' })
+          + ' · '
+          + new Date(l.createdAt).toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' })
+        : '—';
+
+      const msg     = (l.mensaje || '').slice(0, 50) + ((l.mensaje || '').length > 50 ? '…' : '');
+      const isExp   = expandedId === l.id;
 
       html += `
-        <tr class="${isExpanded ? 'expanded' : ''}" onclick="toggleRow(${l.id})">
-          <td class="td-date">${l.id}</td>
+        <tr class="${isExp ? 'is-expanded' : ''}" onclick="toggleRow(${l.id})">
+          <td class="td-id">${String(l.id).padStart(3,'0')}</td>
           <td class="td-date">${date}</td>
           <td class="td-name">${esc(l.nombre)}</td>
           <td class="td-email">${esc(l.email)}</td>
-          <td class="td-phone">${esc(l.telefono) || '<span style="color:var(--muted)">—</span>'}</td>
-          <td>${l.perfil ? `<span class="td-tag">${esc(l.perfil)}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
-          <td class="td-msg">${esc(msg) || '<span style="color:var(--muted)">—</span>'}</td>
-          <td class="td-actions" onclick="event.stopPropagation()">
+          <td class="td-phone">${esc(l.telefono) || '<span style="color:var(--muted2)">—</span>'}</td>
+          <td>${l.perfil ? `<span class="td-tag">${esc(l.perfil)}</span>` : '<span style="color:var(--muted2)">—</span>'}</td>
+          <td class="td-msg">${esc(msg) || '<span style="color:var(--muted2)">—</span>'}</td>
+          <td onclick="event.stopPropagation()">
             <button class="btn-del" onclick="deleteLead(${l.id})">Eliminar</button>
           </td>
         </tr>`;
 
-      if (isExpanded) {
+      if (isExp) {
         html += `
         <tr class="detail-row">
           <td colspan="8">
             <div class="detail-inner">
               <div class="detail-field">
-                <label>Nombre</label><p>${esc(l.nombre)}</p>
+                <label>Nombre</label>
+                <p>${esc(l.nombre)}</p>
               </div>
               <div class="detail-field">
-                <label>Email</label><p><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></p>
+                <label>Email</label>
+                <p><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></p>
               </div>
               <div class="detail-field">
-                <label>Teléfono</label><p>${esc(l.telefono) || '—'}</p>
+                <label>Teléfono</label>
+                <p>${esc(l.telefono) || '—'}</p>
               </div>
               <div class="detail-field">
-                <label>Perfil</label><p>${esc(l.perfil) || '—'}</p>
+                <label>Perfil</label>
+                <p>${esc(l.perfil) || '—'}</p>
               </div>
               <div class="detail-field">
                 <label>Portfolio</label>
-                <p>${l.portfolio ? `<a href="${esc(l.portfolio)}" target="_blank">${esc(l.portfolio)}</a>` : '—'}</p>
+                <p>${l.portfolio ? `<a href="${esc(l.portfolio)}" target="_blank" rel="noopener">${esc(l.portfolio)}</a>` : '—'}</p>
               </div>
               <div class="detail-field">
-                <label>Fecha</label><p>${date}</p>
-              </div>
-              <div class="detail-field">
-                <label>IP</label><p>${esc(l.ip) || '—'}</p>
+                <label>Fecha y hora</label>
+                <p>${date}</p>
               </div>
               <div class="detail-field detail-field--wide">
-                <label>Mensaje completo</label>
-                <p style="white-space:pre-wrap;">${esc(l.mensaje)}</p>
+                <label>Mensaje</label>
+                <p style="white-space:pre-wrap;">${esc(l.mensaje) || '—'}</p>
               </div>
             </div>
           </td>
@@ -578,21 +832,21 @@
   }
 
   function toggleRow(id) {
-    expandedId = (expandedId === id) ? null : id;
+    expandedId = expandedId === id ? null : id;
     renderTable(filteredLeads());
   }
 
-  // ── Filter / search ─────────────────────────────────────
+  /* ── Filter / search ──────────────────────── */
   function filteredLeads() {
-    const q    = document.getElementById('search').value.toLowerCase();
+    const q    = document.getElementById('search').value.toLowerCase().trim();
     const tipo = document.getElementById('filter-tipo').value;
     return allLeads.filter(l => {
-      const matchQ = !q ||
-        (l.nombre   || '').toLowerCase().includes(q) ||
-        (l.email    || '').toLowerCase().includes(q) ||
-        (l.telefono || '').toLowerCase().includes(q) ||
-        (l.perfil   || '').toLowerCase().includes(q) ||
-        (l.mensaje  || '').toLowerCase().includes(q);
+      const matchQ = !q
+        || (l.nombre   || '').toLowerCase().includes(q)
+        || (l.email    || '').toLowerCase().includes(q)
+        || (l.telefono || '').toLowerCase().includes(q)
+        || (l.perfil   || '').toLowerCase().includes(q)
+        || (l.mensaje  || '').toLowerCase().includes(q);
       const matchT = !tipo || l.tipo === tipo;
       return matchQ && matchT;
     });
@@ -602,9 +856,9 @@
   document.getElementById('filter-tipo').addEventListener('change', () => renderTable(filteredLeads()));
   document.getElementById('refresh-btn').addEventListener('click', loadLeads);
 
-  // ── Delete ───────────────────────────────────────────────
+  /* ── Delete ───────────────────────────────── */
   async function deleteLead(id) {
-    if (!confirm('¿Eliminar este lead? Esta acción no se puede deshacer.')) return;
+    if (!confirm('¿Eliminar este registro? La acción no se puede deshacer.')) return;
     try {
       const res = await fetch(`/api/admin/leads/${id}`, {
         method: 'DELETE',
@@ -617,30 +871,33 @@
         document.getElementById('stat-total').textContent = allLeads.length;
         renderTable(filteredLeads());
       }
-    } catch { alert('Error al eliminar'); }
+    } catch { alert('Error al eliminar el registro.'); }
   }
 
-  // ── Export CSV ───────────────────────────────────────────
+  /* ── Export CSV ───────────────────────────── */
   document.getElementById('export-btn').addEventListener('click', () => {
     const leads = filteredLeads();
-    if (!leads.length) { alert('No hay leads para exportar.'); return; }
-    const cols = ['id','createdAt','tipo','nombre','email','telefono','perfil','portfolio','mensaje','ip'];
+    if (!leads.length) { alert('No hay registros para exportar.'); return; }
+    const cols = ['id','createdAt','tipo','nombre','email','telefono','perfil','portfolio','mensaje'];
     const csv  = [
       cols.join(','),
-      ...leads.map(l => cols.map(c => `"${String(l[c] || '').replace(/"/g, '""')}"`).join(','))
+      ...leads.map(l => cols.map(c => `"${String(l[c] || '').replace(/"/g,'""')}"`).join(','))
     ].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = `leads_${new Date().toISOString().slice(0,10)}.csv`;
-    a.click(); URL.revokeObjectURL(url);
+    const a = Object.assign(document.createElement('a'), {
+      href:     URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })),
+      download: `leads_${new Date().toISOString().slice(0,10)}.csv`
+    });
+    a.click();
   });
 
-  // ── Util ─────────────────────────────────────────────────
-  function esc(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  /* ── Util ─────────────────────────────────── */
+  function esc(s) {
+    return String(s || '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
   }
 </script>
-
 </body>
 </html>
