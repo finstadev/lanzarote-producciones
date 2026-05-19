@@ -16,7 +16,7 @@
   --text-muted: rgba(17, 17, 22, 0.62);
   --overlay: rgba(0, 0, 0, 0.46);
   --overlay-heavy: rgba(0, 0, 0, 0.68);
-  --nav-h: 78px;
+  --nav-h: 92px;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --font-display: 'Cormorant Garamond', serif;
   --font-sans: 'Montserrat', sans-serif;
@@ -53,28 +53,31 @@ ul { list-style: none; }
   align-items: center;
   justify-content: space-between;
   padding: 0 5%;
-  transition: background 0.4s var(--ease), backdrop-filter 0.4s var(--ease);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.04) 100%);
+  transition: background 0.4s var(--ease), backdrop-filter 0.4s var(--ease), border-color 0.4s var(--ease);
 }
 
 .nav.scrolled {
-  background: rgba(246, 246, 248, 0.92);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border-bottom: 1px solid var(--glass-border);
+  background: rgba(246, 246, 248, 0.94);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 1px 24px rgba(0,0,0,0.07);
 }
 
 .nav__logo {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 400;
-  letter-spacing: 0.04em;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   color: #ffffff;
-  transition: color 0.3s;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.2);
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
-.nav__logo span { color: rgba(255,255,255,0.8); }
+.nav__logo span { color: #c8d8ff; }
 
-.nav.scrolled .nav__logo { color: var(--text); }
+.nav.scrolled .nav__logo { color: var(--text); text-shadow: none; }
 .nav.scrolled .nav__logo span { color: var(--accent); }
 
 .nav__links {
@@ -84,20 +87,20 @@ ul { list-style: none; }
 }
 
 .nav__links a {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.88);
   transition: color 0.3s var(--ease), border-color 0.3s;
-  padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid transparent;
 }
 
 .nav__links a:hover,
 .nav__links a.active {
   color: #ffffff;
-  border-bottom-color: rgba(255,255,255,0.6);
+  border-bottom-color: rgba(255,255,255,0.75);
 }
 
 .nav.scrolled .nav__links a {
@@ -146,11 +149,12 @@ ul { list-style: none; }
 
 .nav__burger span {
   display: block;
-  width: 26px;
-  height: 1px;
+  width: 28px;
+  height: 2px;
   background: #ffffff;
   transition: all 0.35s var(--ease);
   transform-origin: left;
+  border-radius: 1px;
 }
 
 .nav.scrolled .nav__burger span { background: var(--text); }
@@ -1678,6 +1682,8 @@ ul { list-style: none; }
   .nav {
     background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 100%);
   }
+
+  :root { --nav-h: 70px; }
 
   .nav__logo {
     font-size: 1rem;
